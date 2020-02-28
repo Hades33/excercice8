@@ -1,20 +1,44 @@
 <?php
 /**
- * The template for displaying all pages
+ * The template for displaying all page
  *
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages
- * and that other 'pages' on your WordPress site may use a
- * different template.
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package underscores
+ * @package Astral
+ * @since 0.1
  */
-
 get_header();
+/* 
+* Functions hooked into astral_top_banner action
+* 
+* @hooked astral_inner_banner
+*/
+do_action( 'astral_top_banner' );
+/* 
+* Functions hooked into astral_breadcrumb_area action
+* 
+* @hooked astral_breadcrumb_area
+*/
+do_action( 'astral_breadcrumb_area' );
 ?>
-///////////////////////     FRONT-PAGE  ///////////////////
+<div id="content">
+    <section class="align-blog" id="blog">
+        <div class="container">
+            <div class="row">
+                <!-- left side -->
+                <div class="col-lg-8 single-left mt-lg-0 mt-4">
+					<?php if ( have_posts() ) : while ( have_posts() ) : the_post();
+						get_template_part( 'post', 'page' );
+					endwhile;
+					endif;
+					?>
+                </div>
+                <!-- right side -->
+                <div class="col-lg-4 event-right">
+					<?php get_sidebar(); ?>
+                </div>
+            </div>
+        </div>
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main">
 
@@ -76,20 +100,16 @@ $query2 = new WP_Query( $args2 );
 // The 2nd Loop
 while ( $query2->have_posts() ) {
     $query2->the_post();
+    the_post_thumbnail("thumbnail");
     echo '<li>' . get_the_title( $query2->post->ID ) . '</li>';
     echo '<p>' . substr(get_the_excerpt(),0,200) . '</p>';
-    echo '<img>' . get_the_post_thumbnail( null,"evenement");
-
 }
  
 // Restore original Post Data
 wp_reset_postdata();
  
 ?>
-
-		</main><!-- #main -->
-	</div><!-- #primary -->
-
+    </section>
+</div>
 <?php
-get_sidebar();
 get_footer();
