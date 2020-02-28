@@ -78,6 +78,8 @@ while ( $query2->have_posts() ) {
     $query2->the_post();
     echo '<li>' . get_the_title( $query2->post->ID ) . '</li>';
     echo '<p>' . substr(get_the_excerpt(),0,200) . '</p>';
+    echo '<img>' . get_the_post_thumbnail( null,"evenement");
+
 }
  
 // Restore original Post Data
